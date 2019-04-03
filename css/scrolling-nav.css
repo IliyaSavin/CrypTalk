@@ -1,0 +1,94 @@
+/*!
+ * Start Bootstrap - Scrolling Nav (https://startbootstrap.com/template-overviews/scrolling-nav)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-scrolling-nav/blob/master/LICENSE)
+ */
+header {
+  padding: 156px 0 100px;
+}
+
+section {
+  padding: 150px 0;
+}
+
+#enter {
+  padding-top: 200px;
+  min-height: 1200px;
+}
+
+.main-row-padding {
+  padding-top: 20px;
+}
+
+#inputMain {
+  min-height: 40px;
+  font-size: 22px;
+}
+
+.regButton {
+  background-color: #343a40;
+  color:#fff;
+  min-height: 40px;
+  font-size: 20px;
+}
+
+.regButton:hover {
+  color:#ced4da;
+}
+
+.zeroPadding {
+  padding: 0px;
+}
+
+#messageText {
+  resize: none;
+  height: 44px;
+  font-size: 20px;
+}
+
+#sendBtn {
+}
+
+#mainMessage {
+  padding: 0px;
+}
+
+.allScreenContainer {
+  padding-top: 7vh;
+  padding-bottom: 1vh;
+  height: 90vh;
+  padding-right: 15px;
+  padding-left: 15px;
+
+  
+}
+
+.messageBox {
+  border-style: solid;
+  border-color: #ced4da;
+  border-width: 0px 1px;
+}
+
+#popupPanel {
+  padding-top:100px;
+  z-index: 100;
+  position: relative;
+  display: none;
+}
+
+#startText {
+  padding-bottom: 50px;
+}
+
+.popup-input-padding {
+  padding-top: 32px;
+}
+
+.popup-button-color {
+  background-color: #343a40;
+  color:#fff;
+}
+
+.popup-button-color:hover {
+  color:#ced4da;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Scrolling Nav - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/scrolling-nav.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">CrypTalk</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Create key</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Delete chat</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Exit</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="modal fade" id="newKeyModal" tabindex="-1" role="dialog" aria-labelledby="newKeyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newKeyModalLabel">Create key for a new member?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new-member-name" placeholder="Name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteChatModal" tabindex="-1" role="dialog" aria-labelledby="deleteChatLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteChatLabel">Are you sure to delete this chat?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new-member-name" placeholder="Your Key">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<section id="mainMessage">
+      <div class="container text-center ">
+          <form action="post" class="" id="popupPanel">
+              <div class="input-group mb-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 align-self-start">
+                  <input type="text" name="" id="" class="form-control" placeholder="Name">
+                  <div class="input-group-append">
+                    <button class="btn regButton" type="submit">Generate</button> 
+                  </div>
+                </div>
+          </form>
+              
+
+
+        <div class="row allScreenContainer">
+          <div class="mb-3 h-100 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2" id="messageBox">
+          </div>
+        </div>
+          <form action="post" class="">
+                <div class="input-group mb-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 align-self-end">
+                    <textarea name="" id="messageText" class="form-control" placeholder="Message"></textarea>
+                    <div class="input-group-append">
+                      <button class="btn regButton" type="submit">Send</button> 
+                    </div>
+                  </div>
+          </form>
+</section>
+
+
+
+
+  <!-- <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+  </footer> -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
