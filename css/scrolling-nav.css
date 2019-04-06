@@ -55,19 +55,17 @@ section {
 }
 
 .allScreenContainer {
-  padding-top: 5.8vh;
+  padding-top: 6.6vh;
   padding-bottom: 0vh;
-  height: 92vh;
+  height: 91vh;
   padding-right: 15px;
   padding-left: 15px;
 
   
 }
 
-.messageBox {
-  border-style: solid;
-  border-color: #ced4da;
-  border-width: 0px 1px;
+#messageBox {
+  padding: 0px;
 }
 
 #popupPanel {
@@ -114,7 +112,7 @@ section {
 }
 
 .message-top {
-  padding-bottom: .3rem!important;
+  padding-top: .4rem!important;
   padding-left: .3rem!important;
   padding-right: .5rem!important;
 }
@@ -129,7 +127,7 @@ section {
 }
 
 .card::-webkit-scrollbar {
-  width: 3px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -140,10 +138,31 @@ section {
   background: #343a4009;
 }
 
+textarea::-webkit-scrollbar {
+  width: 2px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background:   #343a4096;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #ffffffb9;
+}
+
+
+
 #send-button {
   border-radius: 0rem 0rem .25rem 0rem;
 }
 
 #messageText {
   border-radius: 0rem 0rem 0rem .25rem;
+}
+
+#message-send-box {
+  /* padding-left: 5px;
+  padding-right: 5px; */
+  padding: 0px 5px;
+
 }
