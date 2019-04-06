@@ -42,8 +42,9 @@ section {
 
 #messageText {
   resize: none;
-  height: 44px;
-  font-size: 20px;
+  height: 52px; 
+  /* 44 */
+  font-size: 18px;
 }
 
 #sendBtn {
@@ -54,9 +55,9 @@ section {
 }
 
 .allScreenContainer {
-  padding-top: 7vh;
-  padding-bottom: 1vh;
-  height: 90vh;
+  padding-top: 5.8vh;
+  padding-bottom: 0vh;
+  height: 92vh;
   padding-right: 15px;
   padding-left: 15px;
 
@@ -91,4 +92,58 @@ section {
 
 .popup-button-color:hover {
   color:#ced4da;
+}
+
+#message-all {
+  overflow-y: auto; 
+  height: 100%;
+  flex-direction: column-reverse;
+}
+
+.message-body {
+  background: #343a40;
+	color: #fff !important;
+  border-radius: .25rem;
+	display: block;
+	max-width: 75%;
+	padding: 7px 13px 7px 13px;
+}
+
+.message-time {
+  color: #343a408e;
+}
+
+.message-top {
+  padding-bottom: .3rem!important;
+  padding-left: .3rem!important;
+  padding-right: .5rem!important;
+}
+
+.message-bottom {
+  padding-bottom: 0.5rem!important;
+}
+
+.message-owner {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.card::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #343a4013;
+}
+
+::-webkit-scrollbar-track {
+  background: #343a4009;
+}
+
+#send-button {
+  border-radius: 0rem 0rem .25rem 0rem;
+}
+
+#messageText {
+  border-radius: 0rem 0rem 0rem .25rem;
 }
