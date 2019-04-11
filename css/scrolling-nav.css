@@ -23,6 +23,7 @@ section {
 #inputMain {
   min-height: 40px;
   font-size: 22px;
+  text-align: center;
 }
 
 .regButton {
@@ -130,11 +131,15 @@ section {
   width: 2px;
 }
 
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.card::-webkit-scrollbar-thumb {
   background: #343a4013;
 }
 
-::-webkit-scrollbar-track {
+.card::-webkit-scrollbar-track {
   background: #343a4009;
 }
 
@@ -165,4 +170,17 @@ textarea::-webkit-scrollbar-track {
   padding-right: 5px; */
   padding: 0px 5px;
 
+}
+
+.form-control:focus {
+  border-color: #343a4050;
+  box-shadow: inset 0 3px 3px rgba(0, 0, 0, 0.075), 0 0 4px #343a40c0;
+}
+
+:focus::-webkit-input-placeholder{
+  text-indent: -999px
+}
+
+:focus::-moz-placeholder{
+  text-indent: -999px
 }
