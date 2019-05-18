@@ -1,0 +1,128 @@
+﻿<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">CrypTalk</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          {{#if isOwner}}
+            <li class="nav-item">
+                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Create key</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Delete chat</a>
+            </li>
+          {{/if}}
+            <li class="nav-item">
+              <a class="nav-link" href="/">Exit</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- New key popup -->
+  <div class="modal fade" id="newKeyModal" tabindex="-1" role="dialog" aria-labelledby="newKeyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newKeyModalLabel">Create key for a new member?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new-member-name" placeholder="Name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Delete popup -->
+  <div class="modal fade" id="deleteChatModal" tabindex="-1" role="dialog" aria-labelledby="deleteChatLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteChatLabel">Are you sure to delete this chat?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new-member-name" placeholder="Your Key">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Owner first visit popup -->
+
+{{#if firstVisit}}
+  <div class="modal fade" id="ownerVisitModal" role="dialog" aria-labelledby="ownerVisitLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ownerVisitLabel">Your owner key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="keyText" value="{{key}}">
+            <div class="input-group-append">
+              <button class="btn popup-button-color" id="copy-button">Copy</button> 
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">I remembered</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ {{/if}}
+  
+    
+
+<!-- New key get popup -->
+  <div class="modal fade" id="getNewKeyModal" tabindex="-1" role="dialog" aria-labelledby="getNewKeyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getNewKeyLabel">New member key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new-member-key" placeholder="Your Key">
+              <span id="new-key">{{newKey}}</span>
+              <button class="btn popup-button-color" id="copy-button">Copy</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color">I remembered</button>
+        </div>
+      </div>
+    </div>
+  </div>
