@@ -28,13 +28,31 @@
 
   $(document).ready(function(){
     $("#ownerVisitModal").modal('show');
+    
   });
 
-  /*$('#createButton').click(function(e) {
-    console.log(1);
-    e.preventDefault();
-    $("#ownerVisitModal").modal('show');
-  })*/
+  var chatConnect = function() {
+    if ($('#userId').text() != ""){
+      //console.log($('#userId').text());
+      var socket = io();
+      socket.emit("enter chat", $('#userId').text());
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", chatConnect);
+
+  $('#createKeyButton').on('click', function() {
+    $.ajax({
+      type: "POST",
+      url: "/createKey",
+      data: {id: $('#userId').text(), name: $('#newMemberName').val()},
+      success: function(result) {
+        $('#newKeyModal').modal('hide');
+        $('#new-member-key').val(result);
+        $('#getNewKeyModal').modal('show');
+      }
+    })
+  })
 
   function copyToClipBoard(txt) {
     try {
@@ -49,43 +67,21 @@
     }
 }
 
-$('#copy-button').on('click', function (e) {
+$('#copy-button-new').on('click', function(e) {
+  copyToClipBoard($('#new-member-key').val());
+})
+
+$('#copy-button-owner').on('click', function (e) {
     copyToClipBoard($('#keyText').val());
 });
 
-  /*$(() => {
-    $("#send-button").click(()=>{
-      sendMessage({
-        name: $("#name").val(), 
-        message:$("#messageText").val(),
-        time: new Date()});
-      })
-      getMessages();
-  })
 
-  function addMessages(message){
-   $("#message-all").append(`
-      <div class="message-bottom p-0 m-0 position-relative">
-        <a class="message-body float-left"> ${message.message} </a>
-      </div>
-      <div class="message-top p-0 m-0 position-relative">
-        <a class="message-owner float-left">${message.name}</a>
-        <div class="message-time float-right "> ${message.time} </div>
-       </div>`)
-   }
 
-  function getMessages(){
-    $.get("http://localhost:3000/messages", (data) => {
-      data.forEach(addMessages);
-    })
-  }
+var socket = io();
+socket.on('namespace', function(namespace) {
 
-  function sendMessage(message){
-   $.post("http://localhost:3000/messages", message)
-  }
+})
 
-  var socket = io();
-  socket.on("message", addMessages)*/
 
   $(function () {
     var socket = io();
@@ -114,7 +110,5 @@ $('#copy-button').on('click', function (e) {
       key: $("#key").val(),
       time: new Date()});
   })
-
-
 
 })(jQuery); // End of use strict

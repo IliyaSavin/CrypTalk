@@ -36,34 +36,52 @@ app.use(cookieParser());
 hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.static(__dirname + "/views"));
 
-//app.use('/', routs);
+
+app.post("/enterChat", function(req, res) {
+    Content.Key.findOne({userKey: req.body.key}, function(err, result) {
+        if(err){
+            console.log(err);
+        } else if (result != null) {
+            res.render("partials/chat.hbs", {
+                id: result._id,
+                isOwner: false,
+                messages: [{name: "1", time: "1:10", message: "Hello"}, {name: "2", time: "2:20", message: "Hello"}]
+            });
+        }
+    })
+  });
+
 
 app.post("/createChat", function(req, res) {
     var key = uuid4().substr(0, 8);
-    const owner = new Content.Key({userKey: key, name: "admin"});
-    owner.save()
-        .then(function(doc){
-            const chat = new Content.Chat({ownerID: doc._id});
-            chat.save()
-            console.log("Сохранен объект", doc);
-        })
-        .catch(function (err){
-            console.log(err);
-        });
+    const owner = new Content.Key({userKey: key, chatID: "none", name: "admin"});
+    const chat = new Content.Chat({ownerID: owner._id});
+    owner.chatID = chat._id;
+    owner.save();
+    chat.save();
 
     res.render("partials/chat.hbs", {
         isOwner: true,
         firstVisit: true,
-        key: key
+        key: key,
+        id: owner._id
     });
 });
 
-app.post("/enterChat", function(req, res) {
-    res.render("partials/chat.hbs", {
-        isOwner: false,
-        messages: [{name: "1", time: "1:10", message: "Hello"}, {name: "2", time: "2:20", message: "Hello"}]
-    });
-});
+app.post("/createKey", function(req, res) {
+    //console.log(req.body);
+
+
+    Content.Chat.findOne({ownerID: req.body.id}, function(err, doc) {
+        console.log(doc);
+        var key = uuid4().substr(0, 8);
+        const newKey = new Content.Key({userKey: key, chatID: doc._id, name: req.body.name});
+        newKey.save()
+            .then(function(doc) {
+                res.send(doc.userKey);
+            })
+    })
+})
 
 app.post("/exit", function(req, res) {
     res.render("partials/main.hbs");
@@ -72,7 +90,5 @@ app.post("/exit", function(req, res) {
 app.get("/", function(req, res) {
     res.render("partials/main.hbs");
 });
-
-
 
 module.exports = app;

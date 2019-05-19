@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const keySchema = new Schema({
     userKey: {type: String, required: true},
-    chatID: {type: String, required: false},
+    chatID: {type: String, required: true},
     name: {type: String, required: true}
     },
     {versionKey: false}

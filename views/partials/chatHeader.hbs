@@ -36,12 +36,12 @@
         <div class="modal-body popup-input-padding">
           <form>
             <div class="form-group">
-              <input type="text" class="form-control" id="new-member-name" placeholder="Name">
+              <input type="text" class="form-control" id="newMemberName" placeholder="Name">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn popup-button-color">Create</button>
+          <button type="button" id="createKeyButton" class="btn popup-button-color">Create</button>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
         <div class="modal-body popup-input-padding">
           <form>
             <div class="form-group">
-              <input type="text" class="form-control" id="new-member-name" placeholder="Your Key">
+              <input type="text" class="form-control" id="ownerKey" placeholder="Your Key">
             </div>
           </form>
         </div>
@@ -71,8 +71,32 @@
     </div>
   </div>
 
-<!-- Owner first visit popup -->
+<!-- New key get popup -->
+  <div class="modal fade" id="getNewKeyModal" tabindex="-1" role="dialog" aria-labelledby="getNewKeyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getNewKeyLabel">New member key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="new-member-key">
+            <div class="input-group-append">
+              <button class="btn popup-button-color" id="copy-button-new">Copy</button> 
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color" data-dismiss="modal">I remembered</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Owner first visit popup -->
 {{#if firstVisit}}
   <div class="modal fade" id="ownerVisitModal" role="dialog" aria-labelledby="ownerVisitLabel">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -87,42 +111,14 @@
           <div class="input-group mb-3">
             <input type="text" class="form-control" id="keyText" value="{{key}}">
             <div class="input-group-append">
-              <button class="btn popup-button-color" id="copy-button">Copy</button> 
+              <button class="btn popup-button-color" id="copy-button-owner">Copy</button> 
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn popup-button-color">I remembered</button>
-        </div>
+          <div class="modal-footer">
+            <a href="/" class="btn popup-button-color">I remembered</a>
+          </div>
       </div>
     </div>
   </div>
  {{/if}}
-  
-    
-
-<!-- New key get popup -->
-  <div class="modal fade" id="getNewKeyModal" tabindex="-1" role="dialog" aria-labelledby="getNewKeyLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="getNewKeyLabel">New member key</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body popup-input-padding">
-          <form>
-            <div class="form-group">
-              <input type="text" class="form-control" id="new-member-key" placeholder="Your Key">
-              <span id="new-key">{{newKey}}</span>
-              <button class="btn popup-button-color" id="copy-button">Copy</button>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn popup-button-color">I remembered</button>
-        </div>
-      </div>
-    </div>
-  </div>

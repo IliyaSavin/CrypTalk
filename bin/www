@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('shopping-cart:server');
 var http = require('http');
 const CryptoJS = require("crypto-js");
+const Content = require("../models/content");
 
 /**
  * Get port from environment and store in Express.
@@ -24,17 +25,19 @@ var server = http.createServer(app);
 var io = require("socket.io").listen(server);
 
 
-/*io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});*/
+
 
 io.on('connection', function(socket){
-  console.log("new connection");
-  socket.on('new message', (data)=>{
-    
+  socket.on('enter chat', function(id) {
+    Content.Key.findOne({_id: id}, function(err, result) {
+      console.log(result);
+      if(err) {
+        console.log(err);
+      } else if (result != null) {
+        socket.join(result.chatId);
+        console.log("new connection");
+      }
+    })
   })
 });
 
