@@ -11,6 +11,7 @@ const keySchema = new Schema({
 
 const messageSchema = new Schema({
     ownerID: {type: String, required: true},
+    chatID: {type: String, required: true},
     text: {type: String, required: true},
     time: {type: String, required: true}
     },

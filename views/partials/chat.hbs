@@ -8,7 +8,7 @@
                 <div id="message-all" class="card border-0 m-0 p-0 position-relative bg-transparent">
                     {{#each messages}}
                         <div class="message-bottom p-0 m-0 position-relative">
-                            <a class="message-body float-left"> {{this.message}} </a>
+                            <a class="message-body float-left"> {{this.text}} </a>
                         </div>
                         <div class="message-top p-0 m-0 position-relative">
                             <a class="message-owner float-left">{{this.name}}</a>
@@ -18,13 +18,11 @@
                 </div>
             </div>
         </div>
-        <form id="message-send-form" class="">
             <div class="input-group mb-3 p-0 col-sm-12 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2 align-self-end" id="message-send-box">
                 <textarea name="" id="messageText" class="form-control" placeholder="Message"></textarea>
                 <div class="input-group-append">
                     <button class="btn regButton" id="send-button">Send</button> 
                 </div>
             </div>
-        </form>
     </div>
 </section>

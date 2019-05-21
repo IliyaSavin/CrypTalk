@@ -37,19 +37,7 @@ hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.static(__dirname + "/views"));
 
 
-app.post("/enterChat", function(req, res) {
-    Content.Key.findOne({userKey: req.body.key}, function(err, result) {
-        if(err){
-            console.log(err);
-        } else if (result != null) {
-            res.render("partials/chat.hbs", {
-                id: result._id,
-                isOwner: false,
-                messages: [{name: "1", time: "1:10", message: "Hello"}, {name: "2", time: "2:20", message: "Hello"}]
-            });
-        }
-    })
-  });
+
 
 
 app.post("/createChat", function(req, res) {

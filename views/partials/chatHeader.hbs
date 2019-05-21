@@ -60,13 +60,15 @@
         <div class="modal-body popup-input-padding">
           <form>
             <div class="form-group">
-              <input type="text" class="form-control" id="ownerKey" placeholder="Your Key">
+              <input type="text" class="form-control" id="delete-key" placeholder="Your Key">
             </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn popup-button-color">Delete</button>
-        </div>
+        <form action="/" method="GET">
+          <div class="modal-footer">
+            <button type="button" id="delete-button" class="btn popup-button-color">Delete</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

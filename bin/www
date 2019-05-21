@@ -30,16 +30,84 @@ var io = require("socket.io").listen(server);
 io.on('connection', function(socket){
   socket.on('enter chat', function(id) {
     Content.Key.findOne({_id: id}, function(err, result) {
-      console.log(result);
+      //console.log(result);
       if(err) {
         console.log(err);
       } else if (result != null) {
-        socket.join(result.chatId);
+        socket.join(result.chatID.toString());
         console.log("new connection");
       }
     })
   })
+  socket.on('new message', function(messageInfo) {
+    Content.Key.findOne({_id: messageInfo.id}, function(err, result) {
+      if (result != null) {
+        const message = new Content.Message({
+          ownerID: messageInfo.id, 
+          chatID: result.chatID,
+          text: messageInfo.message,
+          time: messageInfo.time
+        })
+        message.save()
+        .then(function(doc) {
+          io.sockets.in(doc.chatID.toString()).emit('get message', doc);
+        })
+      }
+      })
+    })
 });
+
+app.post("/enterChat", function(req, res) {
+  Content.Key.findOne({userKey: req.body.key}, function(err, result) {
+      if(err){
+          console.log(err);
+      } else if (result != null) {
+        Content.Message.find({chatID: result.chatID}, function(err, message) {
+          if (err) {
+            console.log(err);
+          } else {
+            //console.log(message);
+            Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
+              if (chat != undefined) {
+                res.render("partials/chat.hbs", {
+                  id: result._id,
+                  isOwner: true,
+                  messages: message.reverse()
+                });
+              } else {
+                res.render("partials/chat.hbs", {
+                  id: result._id,
+                  isOwner: false,
+                  messages: message.reverse()
+                });
+              }
+            })
+          }
+        })
+      }
+  })
+});
+
+app.post("/delete", function(req, res) {
+  console.log(req.body.id);
+  Content.Chat.findOne({ownerID: req.body.id}, function(err, chat) {
+    if (err) {
+      console.log(err);
+    } else if (chat != null) {
+      console.log("deleted");
+      io.sockets.in(chat._id.toString()).emit('delete');
+      Content.Key.deleteMany({chatID: chat._id}, function(err) {
+        if (err) console.log(err);
+      });
+      Content.Message.deleteMany({chatID: chat._id}, function(err) {
+        if (err) console.log(err);
+      });
+      Content.Chat.deleteOne({_id: chat._id}, function(err) {
+        if (err) console.log(err);
+      });
+    }
+  })
+})
 
 /**
  * Listen on provided port, on all network interfaces.

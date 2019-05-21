@@ -31,10 +31,10 @@
     
   });
 
+  var socket = io();
   var chatConnect = function() {
     if ($('#userId').text() != ""){
       //console.log($('#userId').text());
-      var socket = io();
       socket.emit("enter chat", $('#userId').text());
     }
   }
@@ -51,6 +51,14 @@
         $('#new-member-key').val(result);
         $('#getNewKeyModal').modal('show');
       }
+    })
+  })
+
+  $('#delete-button').on('click', function() {
+    $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: {id: $('#userId').text()}
     })
   })
 
@@ -76,38 +84,30 @@ $('#copy-button-owner').on('click', function (e) {
 });
 
 
+socket.on('connect', function() {
+  console.log("connected front-end");
 
-var socket = io();
-socket.on('namespace', function(namespace) {
+  socket.on('delete', function() {
+    console.log("delete front-end");
+    window.location.href = "/";
+  })
 
-})
-
-
-  $(function () {
-    var socket = io();
-    $('message-send-form').submit(function(e){
-      e.preventDefault(); // prevents page reloading
-      socket.emit('chat message', $('#messageText').val());
-      $('#messageText').val('');
-      return false;
-    });
-    socket.on('chat message', function(message){
-      $("#message-all").append(`
+  socket.on('get message', function(message) {
+    console.log("get message front-end");
+    $("#message-all").prepend(`
       <div class="message-bottom p-0 m-0 position-relative">
-        <a class="message-body float-left"> ${message.message} </a>
+        <a class="message-body float-left"> ${message.text} </a>
       </div>
       <div class="message-top p-0 m-0 position-relative">
         <a class="message-owner float-left">${message.name}</a>
         <div class="message-time float-right "> ${message.time} </div>
-       </div>`)
-    });
+      </div>`)
   });
-
-  var socket = io();
+})
   $("#send-button").click(function() {
     socket.emit("new message", {
       message: $('#messageText').val(), 
-      key: $("#key").val(),
+      id: $("#userId").text(),
       time: new Date()});
   })
 
