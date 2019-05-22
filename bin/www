@@ -50,7 +50,8 @@ io.on('connection', function(socket){
         })
         message.save()
         .then(function(doc) {
-          io.sockets.in(doc.chatID.toString()).emit('get message', doc);
+          console.log(doc);
+          io.sockets.in(doc.chatID.toString()).emit('get message', {text: doc.text, name: result.name, time: doc.time});
         })
       }
       })
@@ -62,7 +63,10 @@ app.post("/enterChat", function(req, res) {
       if(err){
           console.log(err);
       } else if (result != null) {
-        Content.Message.find({chatID: result.chatID}, function(err, message) {
+        Content.Message.find({chatID: result.chatID}).
+        populate('ownerID').
+        exec(function(err, message) {
+          //console.log(message);
           if (err) {
             console.log(err);
           } else {
