@@ -71,6 +71,10 @@ app.post("/enterChat", function(req, res) {
             console.log(err);
           } else {
             //console.log(message);
+            message.forEach(function(message) {
+              let time = new Date(message.time);
+              message.time = time.getHours() + ":" + time.getMinutes();
+            })
             Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
               if (chat != undefined) {
                 res.render("partials/chat.hbs", {
