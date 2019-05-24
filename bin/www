@@ -51,6 +51,8 @@ io.on('connection', function(socket){
         message.save()
         .then(function(doc) {
           console.log(doc);
+          let time = new Date(doc.time);
+          doc.time = time.getHours() + ":" + time.getMinutes();
           io.sockets.in(doc.chatID.toString()).emit('get message', {text: doc.text, name: result.name, time: doc.time});
         })
       }

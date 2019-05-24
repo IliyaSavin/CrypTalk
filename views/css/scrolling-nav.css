@@ -48,8 +48,6 @@ section {
   font-size: 18px;
 }
 
-#sendBtn {
-}
 
 #mainMessage {
   padding: 0px;
@@ -177,10 +175,27 @@ textarea::-webkit-scrollbar-track {
   box-shadow: inset 0 3px 3px rgba(0, 0, 0, 0.075), 0 0 4px #343a40c0;
 }
 
+.btn-primary:hover,.btn-primary:focus,.btn-primary:active, 
+.btn-primary:active:focus:not(:disabled):not(.disabled),
+.btn:focus, .btn:active, .btn:hover{
+    box-shadow: inset 0 6px 6px rgba(0, 0, 0, 0.075), 0 0 4px #343a40c0 !important;
+    outline: 0;
+}
+
 :focus::-webkit-input-placeholder{
   text-indent: -999px
 }
 
 :focus::-moz-placeholder{
   text-indent: -999px
+}
+
+input::selection{
+  color: white;
+  background: black;
+}
+
+textarea::selection {
+  color: white;
+  background: black;
 }

@@ -19,3 +19,51 @@
   </nav>
 
 
+<!-- Owner name popup -->
+  <div class="modal fade" id="ownerNameModal" role="dialog" aria-labelledby="ownerNameLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ownerNameLabel">Your owner name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="newOwnerName" placeholder="Name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="newOwnerButton" class="btn popup-button-color">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Owner key popup -->
+  <div class="modal fade" id="ownerVisitModal" role="dialog" aria-labelledby="ownerVisitLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ownerVisitLabel">Your owner key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body popup-input-padding">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="keyText" value="">
+            <div class="input-group-append">
+              <button class="btn popup-button-color" id="copy-button-owner">Copy</button> 
+            </div>
+          </div>
+        </div>
+          <div class="modal-footer">
+            <a href="/" class="btn popup-button-color">I remembered</a>
+          </div>
+      </div>
+    </div>
+  </div>

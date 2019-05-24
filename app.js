@@ -42,18 +42,12 @@ app.use(express.static(__dirname + "/views"));
 
 app.post("/createChat", function(req, res) {
     var key = uuid4().substr(0, 8);
-    const owner = new Content.Key({_id: new mongoose.Types.ObjectId() ,userKey: key, chatID: "none", name: "admin"});
+    const owner = new Content.Key({_id: new mongoose.Types.ObjectId() ,userKey: key, chatID: "none", name: req.body.name});
     const chat = new Content.Chat({_id: new mongoose.Types.ObjectId(), ownerID: owner._id});
     owner.chatID = chat._id;
     owner.save();
     chat.save();
-
-    res.render("partials/chat.hbs", {
-        isOwner: true,
-        firstVisit: true,
-        key: key,
-        id: owner._id
-    });
+    res.send(key);
 });
 
 app.post("/createKey", function(req, res) {
@@ -63,7 +57,7 @@ app.post("/createKey", function(req, res) {
     Content.Chat.findOne({ownerID: req.body.id}, function(err, doc) {
         //console.log(doc);
         var key = uuid4().substr(0, 8);
-        const newKey = new Content.Key({userKey: key, chatID: doc._id, name: req.body.name});
+        const newKey = new Content.Key({userKey: key, name: req.body.name, chatID: doc._id});
         newKey.save()
             .then(function(doc) {
                 res.send(doc.userKey);

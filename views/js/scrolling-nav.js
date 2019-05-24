@@ -26,10 +26,29 @@
     offset: 56
   });
 
-  $(document).ready(function(){
-    $("#ownerVisitModal").modal('show');
-    
+
+  $("#createButton").on('click', function(e) {
+    $("#ownerNameModal").modal('show');
   });
+
+  //$("#newOwnerButton").on('click', function(e) {
+    
+  //})
+
+  $("#newOwnerButton").on('click', function(e) {
+    $.ajax({
+      type: "POST",
+      url: "/createChat",
+      data: {name: $("#newOwnerName").val()},
+      success: function(result) {
+        if (result != null) {
+          $("#keyText").val(result);
+          $("#ownerNameModal").modal('hide');
+          $("#ownerVisitModal").modal('show');
+        }
+      }
+    })
+  })
 
   var socket = io();
   var chatConnect = function() {
@@ -62,25 +81,39 @@
     })
   })
 
-  function copyToClipBoard(txt) {
+  /*function copyToClipBoard(txt) {
     try {
         var $temp = $("<input>");
         $("body").append($temp);
         $temp.val(txt).select();
+        console.log($temp.val());
         var retVal = document.execCommand("copy");
         console.log('Copy to clipboard returns: ' + retVal);
         $temp.remove();
     } catch (err) {
         console.log('Error while copying to clipboard: ' + err);
     }
+}*/
+
+function copyToClipBoard(element) {
+  let $temp = $("<input>");
+  $("body").append($temp);
+  console.log($(element).val());
+  $temp.val($(element).val()).select();
+  document.execCommand("copy");
+  $temp.remove();
 }
 
 $('#copy-button-new').on('click', function(e) {
-  copyToClipBoard($('#new-member-key').val());
+  $('#new-member-key').focus();
+  $('#new-member-key').select();
+  document.execCommand('copy');
 })
 
-$('#copy-button-owner').on('click', function (e) {
-    copyToClipBoard($('#keyText').val());
+$('#copy-button-owner').click(function() {
+  $('#keyText').focus();
+  $('#keyText').select();
+  document.execCommand('copy');
 });
 
 
@@ -109,6 +142,7 @@ socket.on('connect', function() {
       message: $('#messageText').val(), 
       id: $("#userId").text(),
       time: new Date()});
+      $('#messageText').val("");
   })
 
 })(jQuery); // End of use strict
