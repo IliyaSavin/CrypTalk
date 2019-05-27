@@ -52,13 +52,35 @@
 
   var socket = io();
   var chatConnect = function() {
+    console.log("chatConnect");
     if ($('#userId').text() != ""){
-      //console.log($('#userId').text());
-      socket.emit("enter chat", $('#userId').text());
+      $.ajax({
+        type: "POST",
+        url: "/logIn",
+        data: {id: $('#userId').text()},
+        success: function(result) {
+          if(result) {
+            socket.emit("enter chat", result);
+          }
+        }
+      })
     }
   }
 
   document.addEventListener("DOMContentLoaded", chatConnect);
+
+  $('#enterButton').on('click', function() {
+    $.ajax({
+      type: "POST",
+      url: "/keyCheck",
+      data: {key: $("#inputMain").val()},
+      success: function(result) {
+        if(result) {
+          $("#enterForm").submit();
+        }
+      }
+    })
+  })
 
   $('#createKeyButton').on('click', function() {
     $.ajax({
@@ -80,29 +102,6 @@
       data: {id: $('#userId').text()}
     })
   })
-
-  /*function copyToClipBoard(txt) {
-    try {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val(txt).select();
-        console.log($temp.val());
-        var retVal = document.execCommand("copy");
-        console.log('Copy to clipboard returns: ' + retVal);
-        $temp.remove();
-    } catch (err) {
-        console.log('Error while copying to clipboard: ' + err);
-    }
-}*/
-
-function copyToClipBoard(element) {
-  let $temp = $("<input>");
-  $("body").append($temp);
-  console.log($(element).val());
-  $temp.val($(element).val()).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
 
 $('#copy-button-new').on('click', function(e) {
   $('#new-member-key').focus();

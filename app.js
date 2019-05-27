@@ -38,7 +38,25 @@ app.use(express.static(__dirname + "/views"));
 
 
 
-
+app.post("/logIn", function(req, res) {
+    Content.Key.findById(req.body.id, function(err, result) {
+      if(result) {
+        res.send(result.chatID);
+      } else {
+        res.send(false);
+      }
+    })
+  })
+  
+  app.post("/keyCheck", function(req, res) {
+    Content.Key.countDocuments({userKey: req.body.key}, function(err, result) {
+      if (result) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    })
+  })
 
 app.post("/createChat", function(req, res) {
     var key = uuid4().substr(0, 8);
@@ -69,7 +87,7 @@ app.post("/exit", function(req, res) {
     res.render("partials/main.hbs");
 })
 
-app.get("/", function(req, res) {
+app.get(/.*/, function(req, res) {
     res.render("partials/main.hbs");
 });
 

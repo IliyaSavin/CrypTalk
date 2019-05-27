@@ -190,12 +190,11 @@ textarea::-webkit-scrollbar-track {
   text-indent: -999px
 }
 
-input::selection{
-  color: white;
-  background: black;
+.navbar-toggler:focus {
+  outline-color: rgba(255, 255, 255, 0.247);
 }
 
-textarea::selection {
+::selection {
   color: white;
   background: black;
 }

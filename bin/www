@@ -29,15 +29,8 @@ var io = require("socket.io").listen(server);
 
 io.on('connection', function(socket){
   socket.on('enter chat', function(id) {
-    Content.Key.findOne({_id: id}, function(err, result) {
-      //console.log(result);
-      if(err) {
-        console.log(err);
-      } else if (result != null) {
-        socket.join(result.chatID.toString());
-        console.log("new connection");
-      }
-    })
+    socket.join(id);
+    console.log("new connection");
   })
   socket.on('new message', function(messageInfo) {
     Content.Key.findOne({_id: messageInfo.id}, function(err, result) {
@@ -50,7 +43,6 @@ io.on('connection', function(socket){
         })
         message.save()
         .then(function(doc) {
-          console.log(doc);
           let time = new Date(doc.time);
           doc.time = time.getHours() + ":" + time.getMinutes();
           io.sockets.in(doc.chatID.toString()).emit('get message', {text: doc.text, name: result.name, time: doc.time});
@@ -60,43 +52,37 @@ io.on('connection', function(socket){
     })
 });
 
-app.post("/enterChat", function(req, res) {
+app.post("/enter", function(req, res) {
   Content.Key.findOne({userKey: req.body.key}, function(err, result) {
-      if(err){
-          console.log(err);
-      } else if (result != null) {
-        Content.Message.find({chatID: result.chatID}).
-        populate('ownerID').
-        exec(function(err, message) {
-          //console.log(message);
-          if (err) {
-            console.log(err);
+    Content.Message.find({chatID: result.chatID}).
+    populate('ownerID').
+    exec(function(err, message) {
+      if (err) {
+        console.log(err);
+      } else {
+        message.forEach(function(message) {
+        let time = new Date(message.time);
+        message.time = time.getHours() + ":" + time.getMinutes();
+        })
+        Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
+          if (chat != undefined) {
+            res.render("partials/chat.hbs", {
+              id: result._id,
+              isOwner: true,
+              messages: message.reverse()
+            });
           } else {
-            //console.log(message);
-            message.forEach(function(message) {
-              let time = new Date(message.time);
-              message.time = time.getHours() + ":" + time.getMinutes();
-            })
-            Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
-              if (chat != undefined) {
-                res.render("partials/chat.hbs", {
-                  id: result._id,
-                  isOwner: true,
-                  messages: message.reverse()
-                });
-              } else {
-                res.render("partials/chat.hbs", {
-                  id: result._id,
-                  isOwner: false,
-                  messages: message.reverse()
-                });
-              }
-            })
-          }
+            res.render("partials/chat.hbs", {
+            id: result._id,
+            isOwner: false,
+            messages: message.reverse()
+          });
+        }
         })
       }
+    })
   })
-});
+})
 
 app.post("/delete", function(req, res) {
   console.log(req.body.id);
