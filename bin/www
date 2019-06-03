@@ -33,6 +33,7 @@ io.on('connection', function(socket){
     console.log("new connection");
   })
   socket.on('new message', function(messageInfo) {
+    if (!messageInfo.message) console.log("message empty");
     Content.Key.findOne({_id: messageInfo.id}, function(err, result) {
       if (result != null) {
         const message = new Content.Message({
@@ -62,7 +63,15 @@ app.post("/enter", function(req, res) {
       } else {
         message.forEach(function(message) {
         let time = new Date(message.time);
-        message.time = time.getHours() + ":" + time.getMinutes();
+        let minutes = time.getMinutes();
+        let hours = time.getHours();
+        if (hours.toString().length == 1) {
+          hours = '0' + hours;
+        }
+        if (minutes.toString().length == 1) {
+          minutes = '0' + minutes;
+        }
+        message.time = hours + ":" + minutes;
         })
         Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
           if (chat != undefined) {

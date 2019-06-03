@@ -69,11 +69,17 @@
 
   document.addEventListener("DOMContentLoaded", chatConnect);
 
+  var HtmlValidate = (text) => {
+    text = text.replace(/</g, '&lt');
+    text = text.replace(/>/g, '&gt');
+    return text;
+  }
+
   $('#enterButton').on('click', function() {
     $.ajax({
       type: "POST",
       url: "/keyCheck",
-      data: {key: $("#inputMain").val()},
+      data: {key: HtmlValidate($("#inputMain").val())},
       success: function(result) {
         if(result) {
           $("#enterForm").submit();
@@ -136,12 +142,34 @@ socket.on('connect', function() {
       </div>`)
   });
 })
-  $("#send-button").click(function() {
+
+$("#inputMain").keypress(function(e) {
+  var code = (e.keyCode ? e.keyCode : e.which);
+  if (code == 13) {
+    $("#enterButton").trigger('click');
+    e.preventDefault();
+    return true;
+  }
+})
+
+$("#messageText").keypress(function(e) {
+  var code = (e.keyCode ? e.keyCode : e.which);
+  if (code == 13) {
+    $("#send-button").trigger('click');
+    e.preventDefault();
+    return true;
+  }
+})
+
+$("#send-button").click(function() {
+  let currentMessage = HtmlValidate($('#messageText').val());
+  $('#messageText').val("");
+  if (currentMessage) {
     socket.emit("new message", {
-      message: $('#messageText').val(), 
+      message: currentMessage,
       id: $("#userId").text(),
       time: new Date()});
-      $('#messageText').val("");
-  })
+  }
+})
 
 })(jQuery); // End of use strict

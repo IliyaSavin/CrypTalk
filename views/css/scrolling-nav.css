@@ -33,6 +33,8 @@ section {
   font-size: 20px;
 }
 
+
+
 .regButton:hover {
   color:#ced4da;
 }
@@ -182,6 +184,12 @@ textarea::-webkit-scrollbar-track {
     outline: 0;
 }
 
+.regButton:focus, .regButton:active {
+  background-color: #343a40;
+  color:#fff;
+  box-shadow: none;
+}
+
 :focus::-webkit-input-placeholder{
   text-indent: -999px
 }
@@ -197,4 +205,12 @@ textarea::-webkit-scrollbar-track {
 ::selection {
   color: white;
   background: black;
+}
+
+.close:focus {
+  outline: none;
+}
+
+#page-top {
+  background-color: rgb(245, 245, 245);
 }
