@@ -6,7 +6,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const Content = require("./models/content");
 const uuid4 = require("uuid/v4");
-//rsconst routs = require("./routs/index");
+const archiver = require("archiver");
+const fs = require("fs");
+var Minizip = require('minizip-asm.js');
+const CryptoJS = require("crypto-js");
+
+archiver.registerFormat('zip-encryptable', require('archiver-zip-encryptable'));
 
 const app = express();
 
@@ -60,18 +65,26 @@ app.post("/logIn", function(req, res) {
 
 app.post("/createChat", function(req, res) {
     var key = uuid4().substr(0, 8);
-    const owner = new Content.Key({_id: new mongoose.Types.ObjectId() ,userKey: key, chatID: "none", name: req.body.name});
+    const owner = new Content.Key({_id: new mongoose.Types.ObjectId(), userKey: key, chatID: "none", name: req.body.name});
     const chat = new Content.Chat({_id: new mongoose.Types.ObjectId(), ownerID: owner._id});
+    const encript = new Content.Encript({chatID: chat._id, encription: uuid4()});
     owner.chatID = chat._id;
     owner.save();
     chat.save();
+    encript.save();
     res.send(key);
+
+    fs.writeFile("data/" + encript.encription + ".txt",
+    CryptoJS.AES.encrypt(uuid4(), uuid4()).toString(),
+    function(err) {
+      if (err) {
+        console.log(err);
+      }
+    });
 });
 
 app.post("/createKey", function(req, res) {
     //console.log(req.body);
-
-
     Content.Chat.findOne({ownerID: req.body.id}, function(err, doc) {
         //console.log(doc);
         var key = uuid4().substr(0, 8);

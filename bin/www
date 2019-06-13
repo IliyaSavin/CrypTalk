@@ -7,9 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('shopping-cart:server');
 var http = require('http');
-const CryptoJS = require("crypto-js");
 const Content = require("../models/content");
+var Minizip = require('minizip-asm.js');
+const CryptoJS = require("crypto-js");
+const path = require('path');
+const fs = require("fs");
 
+var mz = new Minizip();
 /**
  * Get port from environment and store in Express.
  */
@@ -36,17 +40,28 @@ io.on('connection', function(socket){
     if (!messageInfo.message) console.log("message empty");
     Content.Key.findOne({_id: messageInfo.id}, function(err, result) {
       if (result != null) {
-        const message = new Content.Message({
-          ownerID: messageInfo.id, 
-          chatID: result.chatID,
-          text: messageInfo.message,
-          time: messageInfo.time
-        })
-        message.save()
-        .then(function(doc) {
-          let time = new Date(doc.time);
-          doc.time = time.getHours() + ":" + time.getMinutes();
-          io.sockets.in(doc.chatID.toString()).emit('get message', {text: doc.text, name: result.name, time: doc.time});
+        Content.Encript.findOne({chatID: result.chatID}, function(err, encript) {
+          fs.readFile("./data/" + encript.encription + ".txt", function(err, buff) {
+            if (err) {
+              console.log(err);
+            }
+            const message = new Content.Message({
+              ownerID: messageInfo.id, 
+              chatID: result.chatID,
+              text: CryptoJS.AES.encrypt(messageInfo.message, buff.toString()).toString(),
+              time: messageInfo.time
+            })
+            message.save()
+            .then(function(doc) {
+              let time = new Date(doc.time);
+              doc.time = time.getHours() + ":" + time.getMinutes();
+              io.sockets.in(doc.chatID.toString()).emit('get message', {
+                text: CryptoJS.AES.decrypt(doc.text, buff.toString()).toString(CryptoJS.enc.Utf8),
+                name: result.name,
+                time: doc.time
+              });
+          })
+          })
         })
       }
       })
@@ -61,32 +76,37 @@ app.post("/enter", function(req, res) {
       if (err) {
         console.log(err);
       } else {
-        message.forEach(function(message) {
-        let time = new Date(message.time);
-        let minutes = time.getMinutes();
-        let hours = time.getHours();
-        if (hours.toString().length == 1) {
-          hours = '0' + hours;
-        }
-        if (minutes.toString().length == 1) {
-          minutes = '0' + minutes;
-        }
-        message.time = hours + ":" + minutes;
-        })
-        Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
-          if (chat != undefined) {
-            res.render("partials/chat.hbs", {
-              id: result._id,
-              isOwner: true,
-              messages: message.reverse()
-            });
-          } else {
-            res.render("partials/chat.hbs", {
-            id: result._id,
-            isOwner: false,
-            messages: message.reverse()
-          });
-        }
+        Content.Encript.findOne({chatID: result.chatID}, function(err, encript) {
+          fs.readFile("./data/" + encript.encription + ".txt", function(err, buff) {
+            message.forEach(function(message) {
+              let time = new Date(message.time);
+              let minutes = time.getMinutes();
+              let hours = time.getHours();
+              if (hours.toString().length == 1) {
+                hours = '0' + hours;
+              }
+              if (minutes.toString().length == 1) {
+                minutes = '0' + minutes;
+              }
+              message.time = hours + ":" + minutes;
+              message.text = CryptoJS.AES.decrypt(message.text, buff.toString()).toString(CryptoJS.enc.Utf8);
+              })
+              Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
+                if (chat != undefined) {
+                  res.render("partials/chat.hbs", {
+                    id: result._id,
+                    isOwner: true,
+                    messages: message.reverse()
+                  });
+                } else {
+                  res.render("partials/chat.hbs", {
+                  id: result._id,
+                  isOwner: false,
+                  messages: message.reverse()
+                });
+              }
+              })
+          })
         })
       }
     })
@@ -110,6 +130,13 @@ app.post("/delete", function(req, res) {
       Content.Chat.deleteOne({_id: chat._id}, function(err) {
         if (err) console.log(err);
       });
+      Content.Encript.findOne({chatID: chat._id}, function(err, encript) {
+        fs.unlink("./data/" + encript.encription + ".txt", function(err) {
+          Content.Encript.deleteOne({chatID: chat._id}, function(err) {
+            if (err) console.log(err);
+          })
+        })
+      })
     }
   })
 })

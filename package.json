@@ -12,6 +12,8 @@
         "template"
     ],
     "dependencies": {
+        "archiver": "^3.0.0",
+        "archiver-zip-encryptable": "^1.0.2",
         "body-parser": "^1.18.3",
         "bootstrap": "4.2.1",
         "cookie-parser": "^1.4.3",
@@ -22,11 +24,13 @@
         "hbs": "^4.0.1",
         "jquery": "^3.3.1",
         "jquery.easing": "^1.4.1",
+        "minizip-asm.js": "^1.0.10",
         "mongodb": "^3.1.10",
         "mongoose": "^5.4.3",
         "nodemon": "^1.18.9",
         "socket.io": "^2.2.0",
-        "uuid": "^3.3.2"
+        "uuid": "^3.3.2",
+        "zlib": "^1.0.5"
     },
     "devDependencies": {
         "browser-sync": "2.26.3",

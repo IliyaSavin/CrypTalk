@@ -7,7 +7,7 @@
             <div class="mb-3 h-100 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3" id="messageBox">
                 <div id="message-all" class="card border-0 m-0 p-0 position-relative bg-transparent">
                     {{#each messages}}
-                        <div class="message-bottom p-0 m-0 position-relative">
+                        <div class="message-bottom p-0 m-0 position-relative" id="{{this._id}}">
                             <a class="message-body float-left"> {{this.text}} </a>
                         </div>
                         <div class="message-top p-0 m-0 position-relative">

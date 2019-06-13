@@ -24,6 +24,14 @@ const chatSchema = new Schema({
     {versionKey: false}
 );
 
+const encryptSchema = new Schema({
+    chatID: { type: Schema.Types.ObjectId },
+    encription: { type: String, required: true}
+    },
+    {versionKey: false}
+);
+
 module.exports.Key = mongoose.model("Key", keySchema);
 module.exports.Message = mongoose.model("Message", messageSchema);
 module.exports.Chat = mongoose.model("Chat", chatSchema);
+module.exports.Encript = mongoose.model("Encript", encryptSchema);
