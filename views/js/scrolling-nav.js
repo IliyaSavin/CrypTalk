@@ -28,9 +28,25 @@
 
   $.fn.scrollView = function () {
     return this.each(function () {
-      $('html, body').animate({
-        scrollTop: $(this).offset().top
-      }, 1000);
+      console.log($(this).scrollTop());
+      $('#message-all').animate({
+        scrollTop: $(this).top
+      }, 100);
+    });
+  }
+
+  function scrollToElement(element, parent) {
+    $(parent)[0].scrollIntoView(true);
+    console.log($(parent).scrollTop() + $(element).offset().top - $(parent).offset().top);
+    console.log(-$(parent).scrollTop() - $(element).offset().top - $(parent).offset().top - 500);
+    console.log("parent = " + $(parent).scrollTop());
+    console.log("element = " + $(element).offset().top);
+    console.log("parent offset = " + $(parent).offset().top);
+    $(parent).animate({
+      scrollTop: $(parent).scrollTop() + $(element).offset().top - $(parent).offset().top
+    }, {
+      duration: 0
+      //easing: 'swing'
     });
   }
 
@@ -89,11 +105,28 @@
       url: "/keyCheck",
       data: {key: HtmlValidate($("#inputMain").val())},
       success: function(result) {
-        if(result) {
+        if(result.pass) {
           $("#enterForm").submit();
         }
       }
     })
+  })
+
+  $(document).ready(function() {
+    if ($("#userId").text() != "") {
+      console.log("get Trigger");
+      $.ajax({
+        url: "/getTrigger",
+        type: "POST",
+        data: {
+          id: $("#userId").text()
+        },
+        success: function(message) {
+          scrollToElement($("#5d029f3d1a04bf12b8f9b4fb"), $("#message-all"));
+        }
+      })
+    }
+    console.log("ready");
   })
 
   $('#createKeyButton').on('click', function() {
@@ -138,6 +171,17 @@ socket.on('connect', function() {
     window.location.href = "/";
   })
 
+  socket.on('last message', function(message) {
+    $.ajax({
+      url: "/updateTrigger",
+      type: "POST",
+      data: {
+        id: $("#userId").text(),
+        message: message.id
+      }
+    })
+  })
+
   socket.on('get message', function(message) {
     console.log("get message front-end");
     $("#message-all").prepend(`
@@ -150,6 +194,7 @@ socket.on('connect', function() {
       </div>`)
   });
 })
+
 
 $("#inputMain").keypress(function(e) {
   var code = (e.keyCode ? e.keyCode : e.which);

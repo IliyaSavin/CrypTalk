@@ -56,11 +56,56 @@ app.post("/logIn", function(req, res) {
   app.post("/keyCheck", function(req, res) {
     Content.Key.countDocuments({userKey: req.body.key}, function(err, result) {
       if (result) {
-        res.send(true);
+        Content.Key.findOne({userKey: req.body.key}, function(err, key) {
+          res.send({
+            pass: true,
+            message: key.lastMessage
+          });
+        })
       } else {
-        res.send(false);
+        res.send({
+          pass: false
+        });
       }
     })
+  })
+
+  app.post("/getTrigger", function(req, res) {
+    Content.Key.findById(req.body.id, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        Content.Chat.findById(result.chatID, function(err, chat) {
+          if (err) {
+            console.log(err);
+          } else {
+            Content.Key.updateOne({_id: result._id}, {"lastMessage": chat.lastMessage}, function(err, key) {
+              if (err) {
+                console.log(err);
+              }
+            });
+          }
+        })
+        res.send({
+          id: result.lastMessage
+        })
+      }
+
+      
+    })
+    
+  })
+
+
+
+  app.post("/updateTrigger", function(req, res) {
+    console.log(req.body);
+    Content.Key.updateOne({_id: req.body.id}, {"lastMessage": req.body.message}, function(err, keys) {
+      if(err) {
+        console.log(err);
+      }
+    })
+    res.send();
   })
 
 app.post("/createChat", function(req, res) {

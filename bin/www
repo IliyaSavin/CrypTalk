@@ -55,6 +55,14 @@ io.on('connection', function(socket){
             .then(function(doc) {
               let time = new Date(doc.time);
               doc.time = time.getHours() + ":" + time.getMinutes();
+              io.sockets.in(doc.chatID.toString()).emit("last message", {
+                id: doc._id
+              })
+              Content.Chat.updateOne({_id: doc.chatID}, {"lastMessage": doc._id}, function(err, chat) {
+                if(err) {
+                  console.log(err);
+                }
+              })
               io.sockets.in(doc.chatID.toString()).emit('get message', {
                 text: CryptoJS.AES.decrypt(doc.text, buff.toString()).toString(CryptoJS.enc.Utf8),
                 name: result.name,
@@ -92,6 +100,7 @@ app.post("/enter", function(req, res) {
               message.text = CryptoJS.AES.decrypt(message.text, buff.toString()).toString(CryptoJS.enc.Utf8);
               })
               Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
+                
                 if (chat != undefined) {
                   res.render("partials/chat.hbs", {
                     id: result._id,

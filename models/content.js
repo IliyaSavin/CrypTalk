@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const keySchema = new Schema({
     userKey: {type: String, required: true},
     chatID: { type: Schema.Types.ObjectId, ref: 'Chat' },
-    name: {type: String, required: true}
+    name: {type: String, required: true},
+    lastMessage: {type: Schema.Types.ObjectId, required: false} 
     },
     {versionKey: false}
 );
@@ -19,7 +20,8 @@ const messageSchema = new Schema({
 );
 
 const chatSchema = new Schema({
-    ownerID: { type: Schema.Types.ObjectId, ref: 'Key' }
+    ownerID: { type: Schema.Types.ObjectId, ref: 'Key' },
+    lastMessage: { type: Schema.Types.ObjectId, required: false}
     },
     {versionKey: false}
 );
