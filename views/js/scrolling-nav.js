@@ -122,7 +122,9 @@
           id: $("#userId").text()
         },
         success: function(message) {
-          scrollToElement($("#5d029f3d1a04bf12b8f9b4fb"), $("#message-all"));
+          if (message.id) {
+            scrollToElement($("#" + message.id), $("#message-all"));
+          }
         }
       })
     }

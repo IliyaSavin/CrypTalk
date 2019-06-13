@@ -99,13 +99,13 @@ app.post("/logIn", function(req, res) {
 
 
   app.post("/updateTrigger", function(req, res) {
-    console.log(req.body);
     Content.Key.updateOne({_id: req.body.id}, {"lastMessage": req.body.message}, function(err, keys) {
       if(err) {
         console.log(err);
       }
     })
-    res.send();
+    res.set("Connection", "close");
+    res.end();
   })
 
 app.post("/createChat", function(req, res) {
