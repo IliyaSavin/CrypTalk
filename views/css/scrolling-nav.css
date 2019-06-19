@@ -104,7 +104,7 @@ section {
 	color: #fff !important;
   border-radius: .25rem;
 	display: block;
-	max-width: 75%;
+	max-width: 99%;
 	padding: 7px 13px 7px 13px;
 }
 
@@ -213,4 +213,9 @@ textarea::-webkit-scrollbar-track {
 
 #page-top {
   background-color: rgb(245, 245, 245);
+}
+
+.text-style-modal {
+  vertical-align: middle;
+  margin-bottom: 0px;
 }

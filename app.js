@@ -10,6 +10,7 @@ const archiver = require("archiver");
 const fs = require("fs");
 var Minizip = require('minizip-asm.js');
 const CryptoJS = require("crypto-js");
+const colors = require("./views/js/colors");
 
 archiver.registerFormat('zip-encryptable', require('archiver-zip-encryptable'));
 
@@ -44,7 +45,7 @@ app.use(express.static(__dirname + "/views"));
 
 
 app.post("/logIn", function(req, res) {
-    Content.Key.findById(req.body.id, function(err, result) {
+    Content.Key.findOne({_id: req.body.id, deleted: false}, function(err, result) {
       if(result) {
         res.send(result.chatID);
       } else {
@@ -54,7 +55,7 @@ app.post("/logIn", function(req, res) {
   })
   
   app.post("/keyCheck", function(req, res) {
-    Content.Key.countDocuments({userKey: req.body.key}, function(err, result) {
+    Content.Key.countDocuments({userKey: req.body.key, deleted: false}, function(err, result) {
       if (result) {
         Content.Key.findOne({userKey: req.body.key}, function(err, key) {
           res.send({
@@ -66,6 +67,26 @@ app.post("/logIn", function(req, res) {
         res.send({
           pass: false
         });
+      }
+    })
+  })
+
+  app.post("/isOwner", function(req, res) {
+    Content.Key.findOne({userKey: req.body.key}, function(err, user) {
+      if (err) {
+        console.log(err);
+      } else if (user != null) {
+        Content.Chat.findOne({ownerID: user._id}, function(err, chat) {
+          if (err) {
+            console.log(err);
+          } else if (chat != null) {
+            res.send(true);
+          } else {
+            res.send(false);
+          }
+        })
+      } else {
+        res.send(false);
       }
     })
   })
@@ -110,7 +131,7 @@ app.post("/logIn", function(req, res) {
 
 app.post("/createChat", function(req, res) {
     var key = uuid4().substr(0, 8);
-    const owner = new Content.Key({_id: new mongoose.Types.ObjectId(), userKey: key, chatID: "none", name: req.body.name});
+    const owner = new Content.Key({_id: new mongoose.Types.ObjectId(), userKey: key, chatID: "none", name: req.body.name, color: colors[0]});
     const chat = new Content.Chat({_id: new mongoose.Types.ObjectId(), ownerID: owner._id});
     const encript = new Content.Encript({chatID: chat._id, encription: uuid4()});
     owner.chatID = chat._id;
@@ -129,16 +150,52 @@ app.post("/createChat", function(req, res) {
 });
 
 app.post("/createKey", function(req, res) {
-    //console.log(req.body);
+    console.log(req.body);
     Content.Chat.findOne({ownerID: req.body.id}, function(err, doc) {
         //console.log(doc);
-        var key = uuid4().substr(0, 8);
-        const newKey = new Content.Key({userKey: key, name: req.body.name, chatID: doc._id});
-        newKey.save()
-            .then(function(doc) {
-                res.send(doc.userKey);
+        Content.Key.findOne({name: req.body.name, chatID: doc._id, deleted: false}, function(err, user) {
+          if (err) {
+            console.log(err);
+          } else if (user == null) {
+            Content.Key.countDocuments({chatID: doc._id}, function(err, count) {
+              var key = uuid4().substr(0, 8);
+              const newKey = new Content.Key({userKey: key, name: req.body.name, chatID: doc._id, color: colors[count]});
+              newKey.save()
+              .then(function(doc) {
+                  res.send({
+                    check: true,
+                    key: doc.userKey
+                  });
+              })
             })
+          } else {
+            res.send({
+              check: false
+            })
+          }
+        })
+        
     })
+})
+
+app.post("/remind", function(req, res) {
+  Content.Key.findById(req.body.id, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result.userKey);
+    }
+  })
+})
+
+app.post("/remindByName", function(req, res) {
+  Content.Key.findById(req.body.id, function(err, key) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(key.userKey);
+    }
+  })
 })
 
 app.post("/exit", function(req, res) {

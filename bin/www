@@ -54,7 +54,15 @@ io.on('connection', function(socket){
             message.save()
             .then(function(doc) {
               let time = new Date(doc.time);
-              doc.time = time.getHours() + ":" + time.getMinutes();
+              let minutes = time.getMinutes();
+              let hours = time.getHours();
+              if (hours.toString().length == 1) {
+                hours = '0' + hours;
+              }
+              if (minutes.toString().length == 1) {
+                minutes = '0' + minutes;
+              }
+              doc.time = hours + ":" + minutes;
               io.sockets.in(doc.chatID.toString()).emit("last message", {
                 id: doc._id
               })
@@ -66,7 +74,8 @@ io.on('connection', function(socket){
               io.sockets.in(doc.chatID.toString()).emit('get message', {
                 text: CryptoJS.AES.decrypt(doc.text, buff.toString()).toString(CryptoJS.enc.Utf8),
                 name: result.name,
-                time: doc.time
+                time: doc.time,
+                color: result.color
               });
           })
           })
@@ -77,6 +86,7 @@ io.on('connection', function(socket){
 });
 
 app.post("/enter", function(req, res) {
+  console.log(req.body);
   Content.Key.findOne({userKey: req.body.key}, function(err, result) {
     Content.Message.find({chatID: result.chatID}).
     populate('ownerID').
@@ -98,15 +108,26 @@ app.post("/enter", function(req, res) {
               }
               message.time = hours + ":" + minutes;
               message.text = CryptoJS.AES.decrypt(message.text, buff.toString()).toString(CryptoJS.enc.Utf8);
+              message.text = message.text.replace(/&lt/g, '<');
+              message.text = message.text.replace(/&gt/g, '>');
+              if (message.ownerID._id.toString() == result._id.toString()) {
+                message.isOwn = true;
+              } else {
+                message.isOwn = false;
+              }
               })
               Content.Chat.findOne({ownerID: result._id}, function(err, chat) {
                 
                 if (chat != undefined) {
-                  res.render("partials/chat.hbs", {
-                    id: result._id,
-                    isOwner: true,
-                    messages: message.reverse()
-                  });
+                  Content.Key.find({chatID: result.chatID, deleted: false}, function(err, users) {
+                    res.render("partials/chat.hbs", {
+                      id: result._id,
+                      isOwner: true,
+                      messages: message.reverse(),
+                      users: users
+                    });
+                  })
+                  
                 } else {
                   res.render("partials/chat.hbs", {
                   id: result._id,
@@ -146,6 +167,19 @@ app.post("/delete", function(req, res) {
           })
         })
       })
+    }
+  })
+})
+
+app.post("/deleteUser", function(req, res) {
+  Content.Key.findOneAndUpdate({_id: req.body.id}, {"deleted" : true}, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      io.sockets.in(result.chatID.toString()).emit('deleteCheck', {
+        id: req.body.id
+      });
+      res.send(true);
     }
   })
 })

@@ -9,10 +9,17 @@
         <ul class="navbar-nav ml-auto">
           {{#if isOwner}}
             <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Create key</a>
+                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Add user</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Delete chat</a>
+              <a class="nav-link" href="" data-toggle="modal" data-target="#admin-remind-modal">Users list</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Delete space</a>
+            </li>
+          {{else}}
+            <li class="nav-item">
+              <a class="nav-link" href="" id="user-remind-link" data-toggle="modal" data-target="#user-remind-modal">Remind key</a>
             </li>
           {{/if}}
             <li class="nav-item">
@@ -28,14 +35,14 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="newKeyModalLabel">Create key</h5>
+          <h5 class="modal-title" id="newKeyModalLabel">Add user</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body popup-input-padding">
+        <div class="modal-body">
           <form>
-            <div class="form-group">
+            <div class="form-group m-0">
               <input type="text" class="form-control" id="newMemberName" placeholder="Name">
             </div>
           </form>
@@ -52,14 +59,14 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteChatLabel">Delete confirm</h5>
+          <h5 class="modal-title" id="deleteChatLabel">Delete space</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body popup-input-padding">
+        <div class="modal-body">
           <form>
-            <div class="form-group">
+            <div class="form-group m-0">
               <input type="text" class="form-control" id="delete-key" placeholder="Your Key">
             </div>
           </form>
@@ -78,13 +85,13 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="getNewKeyLabel">New member key</h5>
+          <h5 class="modal-title" id="getNewKeyLabel">New key</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body popup-input-padding">
-          <div class="input-group mb-3">
+        <div class="modal-body">
+          <div class="input-group m-0">
             <input type="text" class="form-control" id="new-member-key" value="">
             <div class="input-group-append">
               <button class="btn popup-button-color" id="copy-button-new">Copy</button> 
@@ -92,10 +99,87 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn popup-button-color" data-dismiss="modal">I remembered</button>
+          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">I remembered</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete key get popup -->
+  <div class="modal fade" id="delete-user-modal" tabindex="-1" role="dialog" aria-labelledby="getNewKeyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getNewKeyLabel">Remove user</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p class="text-style-modal">User has been removed</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
   
+  <!-- Remind key admin popup -->
+  <div class="modal fade" id="admin-remind-modal" role="dialog" aria-labelledby="ownerVisitLabel">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ownerVisitLabel">Group members</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group m-0 p-1">
+              <select class="form-control" id="choose-select-admin">
+                {{#each users}}
+                  <option value="{{this._id}}">{{this.name}}</option>
+                {{/each}}
+              </select>
+              <div class="input-group-append">
+                <button class="btn popup-button-color" id="get-key-admin">Get key</button> 
+              </div>
+              <div class="input-group-append">
+                <button class="btn popup-button-color" id="remove-key-admin">Remove</button> 
+              </div>
+          </div>
+          
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn popup-button-color" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Remind key user popup -->
+  <div class="modal fade" id="user-remind-modal" role="dialog" aria-labelledby="ownerVisitLabel">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ownerVisitLabel">Your key</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group m-0">
+            <input type="text" class="form-control" id="user-remind-key" value="">
+            <div class="input-group-append">
+              <button class="btn popup-button-color" id="user-remind-copy-button">Copy</button> 
+            </div>
+          </div>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn popup-button-color" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>

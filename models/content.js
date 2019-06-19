@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+mongoose.set('useFindAndModify', false);
 
 const keySchema = new Schema({
     userKey: {type: String, required: true},
     chatID: { type: Schema.Types.ObjectId, ref: 'Chat' },
     name: {type: String, required: true},
-    lastMessage: {type: Schema.Types.ObjectId, required: false} 
+    lastMessage: {type: Schema.Types.ObjectId, required: false},
+    color: {type: String, required: false},
+    deleted: {type: Boolean, required: false, default: false}
     },
     {versionKey: false}
 );

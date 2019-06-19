@@ -7,13 +7,22 @@
             <div class="mb-3 h-100 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3" id="messageBox">
                 <div id="message-all" class="card border-0 m-0 p-0 position-relative bg-transparent">
                     {{#each messages}}
+                        <!--
+                        <div class="message-bottom p-0 m-0 position-relative" id="{{this._id}}">
+                            <a class="message-body float-right"> {{this.text}} </a>
+                        </div>
+                        <div class="message-top p-0 m-0 position-relative">
+                            <div class="message-time float-left "> {{this.time}} </div>
+                            <a class="message-owner float-right">{{this.ownerID.name}}</a>
+                        </div>-->
                         <div class="message-bottom p-0 m-0 position-relative" id="{{this._id}}">
                             <a class="message-body float-left"> {{this.text}} </a>
                         </div>
                         <div class="message-top p-0 m-0 position-relative">
-                            <a class="message-owner float-left">{{this.ownerID.name}}</a>
+                            <a class="message-owner float-left" style="color: {{this.ownerID.color}}">{{this.ownerID.name}}</a>
                             <div class="message-time float-right "> {{this.time}} </div>
                         </div>
+                        
                     {{/each}}
                 </div>
             </div>
