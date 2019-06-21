@@ -74,7 +74,7 @@
     } else {
       $("#newOwnerName").popover("dispose");
       $("#newOwnerName").popover({
-        content: "Provide name",
+        content: "Введіть ім'я",
         placement: "top",
         trigger: "manual"
       });
@@ -131,8 +131,26 @@
     $("#choose-select-admin").popover("hide");
   })
 
-  $("#remove-key-admin").click(function(e) {
+  $("#remove-key-confirm").click(function(e) {
     if ($("#choose-select-admin").val() != $("#userId").text()) {
+      $("#admin-remind-modal").modal("hide");
+      $("#delete-user-confirm-modal").modal("show");
+    } else {
+      $("#choose-select-admin").popover("dispose");
+      $("#choose-select-admin").popover({
+        content: "Ви не можете видалити самого себе",
+        placement: "top",
+        trigger: "manual"
+      });
+      $("#choose-select-admin").popover("show");
+      setTimeout(function() {
+        $("#choose-select-admin").popover("hide");
+      }, 1200);
+    }
+    
+  })
+
+  $("#remove-key-admin").click(function(e) {
       $.ajax({
         url: "/deleteUser",
         type: "POST",
@@ -142,23 +160,11 @@
         success: function(result) {
           if (result) {
             console.log(result);
-            $("#admin-remind-modal").modal("hide");
+            $("#delete-user-confirm-modal").modal("hide");
             $("#delete-user-modal").modal("show");
           }
         }
       })
-    } else {
-      $("#choose-select-admin").popover("dispose");
-      $("#choose-select-admin").popover({
-        content: "You can`t delete yourself",
-        placement: "bottom",
-        trigger: "manual"
-      });
-      $("#choose-select-admin").popover("show");
-      setTimeout(function() {
-        $("#choose-select-admin").popover("hide");
-      }, 1200);
-    }
   })
 
   $("#user-remind-link").click(function(e) {
@@ -195,7 +201,7 @@
           } else {
             $("#inputMain").popover("dispose");
             $("#inputMain").popover({
-              content: "Invalid key",
+              content: "Невірний ключ",
               placement: "top",
               trigger: "manual"
             });
@@ -206,7 +212,7 @@
     } else {
       $("#inputMain").popover("dispose");
       $("#inputMain").popover({
-        content: "The key consists of 8 characters",
+        content: "Ключ має довжину в 8 символів",
         placement: "top",
         trigger: "manual"
       });
@@ -258,7 +264,7 @@
           else {
             $("#newMemberName").popover("dispose");
               $("#newMemberName").popover({
-                content: "This name already exists",
+                content: "Це ім'я вже зайняте",
                 placement: "top",
                 trigger: "manual"
               });
@@ -269,7 +275,7 @@
     } else {
       $("#newMemberName").popover("dispose");
       $("#newMemberName").popover({
-        content: "Provide name",
+        content: "Введіть ім'я",
         placement: "top",
         trigger: "manual"
       });
@@ -297,7 +303,7 @@
         } else {
           $("#delete-key").popover("dispose");
           $("#delete-key").popover({
-            content: "Wrong key",
+            content: "Невірний ключ",
             placement: "top",
             trigger: "manual"
           });
@@ -405,7 +411,7 @@ $("#send-button").click(function() {
   } else if (currentMessage.length > 256) {
     $("#messageText").popover("dispose");
       $("#messageText").popover({
-        content: "Message max length - 256 characters",
+        content: "Максимальна довжина повідомлення - 256 символів",
         placement: "top",
         trigger: "manual"
       });
@@ -413,7 +419,7 @@ $("#send-button").click(function() {
   } else {
     $("#messageText").popover("dispose");
       $("#messageText").popover({
-        content: "Write a message",
+        content: "Введіть текст повідомлення",
         placement: "top",
         trigger: "manual"
       });

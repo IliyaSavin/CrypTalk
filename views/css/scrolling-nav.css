@@ -219,3 +219,7 @@ textarea::-webkit-scrollbar-track {
   vertical-align: middle;
   margin-bottom: 0px;
 }
+
+#send-button {
+  font-size: 16px;
+}

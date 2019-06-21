@@ -9,21 +9,21 @@
         <ul class="navbar-nav ml-auto">
           {{#if isOwner}}
             <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Add user</a>
+                <a class="nav-link" href="" data-toggle="modal" data-target="#newKeyModal">Додати користувача</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="" data-toggle="modal" data-target="#admin-remind-modal">Users list</a>
+              <a class="nav-link" href="" data-toggle="modal" data-target="#admin-remind-modal">Список користувачів</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Delete space</a>
+              <a class="nav-link" href="" data-toggle="modal" data-target="#deleteChatModal">Видалити простір</a>
             </li>
           {{else}}
             <li class="nav-item">
-              <a class="nav-link" href="" id="user-remind-link" data-toggle="modal" data-target="#user-remind-modal">Remind key</a>
+              <a class="nav-link" href="" id="user-remind-link" data-toggle="modal" data-target="#user-remind-modal">Нагадати ключ</a>
             </li>
           {{/if}}
             <li class="nav-item">
-              <a class="nav-link" href="/">Exit</a>
+              <a class="nav-link" href="/">Вийти</a>
             </li>
         </ul>
       </div>
@@ -35,7 +35,7 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="newKeyModalLabel">Add user</h5>
+          <h5 class="modal-title" id="newKeyModalLabel">Новий користувач</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -43,12 +43,12 @@
         <div class="modal-body">
           <form>
             <div class="form-group m-0">
-              <input type="text" class="form-control" id="newMemberName" placeholder="Name">
+              <input type="text" class="form-control" id="newMemberName" placeholder="Ім'я">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" id="createKeyButton" class="btn popup-button-color">Create</button>
+          <button type="button" id="createKeyButton" class="btn popup-button-color">Додати</button>
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteChatLabel">Delete space</h5>
+          <h5 class="modal-title" id="deleteChatLabel">Видалити простір</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -67,13 +67,13 @@
         <div class="modal-body">
           <form>
             <div class="form-group m-0">
-              <input type="text" class="form-control" id="delete-key" placeholder="Your Key">
+              <input type="text" class="form-control" id="delete-key" placeholder="Ваш ключ">
             </div>
           </form>
         </div>
         <form action="/" method="GET">
           <div class="modal-footer">
-            <button type="button" id="delete-button" class="btn popup-button-color">Delete</button>
+            <button type="button" id="delete-button" class="btn popup-button-color">Видалити</button>
           </div>
         </form>
       </div>
@@ -85,7 +85,7 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="getNewKeyLabel">New key</h5>
+          <h5 class="modal-title" id="getNewKeyLabel">Новий користувач</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -94,12 +94,12 @@
           <div class="input-group m-0">
             <input type="text" class="form-control" id="new-member-key" value="">
             <div class="input-group-append">
-              <button class="btn popup-button-color" id="copy-button-new">Copy</button> 
+              <button class="btn popup-button-color" id="copy-button-new">Копіючати</button> 
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">I remembered</button>
+          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">Запам'ятав</button>
         </div>
       </div>
     </div>
@@ -110,16 +110,37 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="getNewKeyLabel">Remove user</h5>
+          <h5 class="modal-title" id="getNewKeyLabel">Видалити користувача</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            <p class="text-style-modal">User has been removed</p>
+            <p class="text-style-modal">Користувач був видалений</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">Close</button>
+          <button type="button" class="btn popup-button-color reload-button" data-dismiss="modal">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete key confirm popup -->
+  <div class="modal fade" id="delete-user-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="getNewKeyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="getNewKeyLabel">Підтвердіть видалення</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p class="text-style-modal">Ви дійсно хочете видалити користувача?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn popup-button-color col-3" id="remove-key-admin">Так</button>
+          <button type="button" class="btn popup-button-color col-3" data-dismiss="modal">Ні</button>
         </div>
       </div>
     </div>
@@ -128,43 +149,44 @@
   
   <!-- Remind key admin popup -->
   <div class="modal fade" id="admin-remind-modal" role="dialog" aria-labelledby="ownerVisitLabel">
-    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="ownerVisitLabel">Group members</h5>
+          <h5 class="modal-title" id="ownerVisitLabel">Список користувачів</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="input-group m-0 p-1">
+          <div class="input-group m-0 pr-0 pl-0 pb-2">
               <select class="form-control" id="choose-select-admin">
                 {{#each users}}
                   <option value="{{this._id}}">{{this.name}}</option>
                 {{/each}}
               </select>
-              <div class="input-group-append">
-                <button class="btn popup-button-color" id="get-key-admin">Get key</button> 
-              </div>
-              <div class="input-group-append">
-                <button class="btn popup-button-color" id="remove-key-admin">Remove</button> 
-              </div>
+                
           </div>
-          
+          <div class="row">
+            <div class="col-7 pr-2">
+              <button class="btn btn-block popup-button-color" id="get-key-admin">Отримати ключ</button> 
+            </div>
+            <div class="col-5 pl-0">
+              <button class="btn btn-block popup-button-color" id="remove-key-confirm">Видалити</button> 
+            </div>
+          </div>
         </div>
-          <div class="modal-footer">
-            <button type="button" class="btn popup-button-color" data-dismiss="modal">Close</button>
-          </div>
       </div>
     </div>
   </div>
+
+
 
    <!-- Remind key user popup -->
   <div class="modal fade" id="user-remind-modal" role="dialog" aria-labelledby="ownerVisitLabel">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="ownerVisitLabel">Your key</h5>
+          <h5 class="modal-title" id="ownerVisitLabel">Ваш ключ</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -173,12 +195,12 @@
           <div class="input-group m-0">
             <input type="text" class="form-control" id="user-remind-key" value="">
             <div class="input-group-append">
-              <button class="btn popup-button-color" id="user-remind-copy-button">Copy</button> 
+              <button class="btn popup-button-color" id="user-remind-copy-button">Копіювати</button> 
             </div>
           </div>
         </div>
           <div class="modal-footer">
-            <button type="button" class="btn popup-button-color" data-dismiss="modal">Close</button>
+            <button type="button" class="btn popup-button-color" data-dismiss="modal">Закрити</button>
           </div>
       </div>
     </div>
