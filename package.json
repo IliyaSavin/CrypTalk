@@ -22,7 +22,7 @@
         "express": "^4.16.4",
         "express-handlebars": "^3.0.0",
         "hbs": "^4.0.1",
-        "jquery": "^3.3.1",
+        "jquery": "^3.5.0",
         "jquery.easing": "^1.4.1",
         "minizip-asm.js": "^1.0.10",
         "mongodb": "^3.1.10",
