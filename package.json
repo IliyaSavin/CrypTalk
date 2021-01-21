@@ -28,7 +28,7 @@
         "mongodb": "^3.1.10",
         "mongoose": "^5.4.3",
         "nodemon": "^1.18.9",
-        "socket.io": "^2.2.0",
+        "socket.io": "^2.4.0",
         "uuid": "^3.3.2",
         "zlib": "^1.0.5"
     },
