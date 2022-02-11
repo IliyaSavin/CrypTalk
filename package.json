@@ -20,7 +20,7 @@
         "crypto-js": "^3.1.9-1",
         "debug": "^4.1.1",
         "express": "^4.16.4",
-        "express-handlebars": "^3.0.0",
+        "express-handlebars": "^5.3.1",
         "hbs": "^4.0.1",
         "jquery": "^3.3.1",
         "jquery.easing": "^1.4.1",
